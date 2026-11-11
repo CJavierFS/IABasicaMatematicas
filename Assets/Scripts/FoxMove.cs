@@ -29,10 +29,12 @@ public class FoxMove : MonoBehaviour
         // Si Foxy está demasiado cerca, alonxase do xogador.
         if (distance < minDistance)
         {
+            // Calculamos a dirección na que mira Banana MAn
             Vector3 direction = (transform.position - bananaMan.position).normalized;
 
             transform.LookAt(direction + transform.position);
 
+            // Calculamos o vector de velocidad e facemos que se mova Foxy
             Vector3 velocity = direction * speed * Time.deltaTime;
 
             transform.position += velocity;
@@ -50,19 +52,25 @@ public class FoxMove : MonoBehaviour
         }
         else
         {
-            // Rotamos o vector arredor de Banana Man conservando a distancia.
+            // Calculamos a dirección actual
             Vector3 currentDirection = transform.position - bananaMan.position;
 
+            // Calculamos canto pode rotar Foxy arredor de BAnana Man
             float maxRotation = rotateSpeed * Mathf.Deg2Rad * Time.deltaTime;
 
+            // Calculamos a nova dirección, cara donde está mirando Banana Man
             Vector3 newDirection = Vector3.RotateTowards(currentDirection, bananaMan.forward, maxRotation, 0f);
 
+            // Gardamos a posición actual
             Vector3 previousPosition = transform.position;
 
+            // Movemos a Foxy a nova posición
             transform.position = bananaMan.position + newDirection;
 
+            // Calculamos o ángulo hacia destino
             float angleToTarget = Vector3.Angle(newDirection, bananaMan.forward);
 
+            // Comparamos o ángulo ca precisión
             if (angleToTarget > accuracy)
             {
                 // Mira cara á dirección do movimiento mentres se recoloca.
@@ -72,7 +80,7 @@ public class FoxMove : MonoBehaviour
             }
             else
             {
-                // Foxy se detiene y mira hacia Banana Man
+                // Foxy detiense e mira cara Banana Man
                 transform.LookAt(bananaMan.position);
             }
         }
